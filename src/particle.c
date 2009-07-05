@@ -25,7 +25,6 @@
 #include <math.h>
 #include <stdlib.h>
 
-extern SDL_Surface *screen;
 extern int zustand; /* Evil coding style... */
 
 Particle particles[MAX_PARTICLES];
@@ -36,17 +35,17 @@ int active_particles = 0;
 /* Some static functions to add and delete particles */
 static void AddParticle(pParticle particle)
 {
-	if (active_particles >= MAX_PARTICLES)
-		return;
+    if (active_particles >= MAX_PARTICLES)
+        return;
 
-	particles[active_particles] = *particle;
-	active_particles++;
+    particles[active_particles] = *particle;
+    active_particles++;
 }
 
 static void DeleteParticle(int index)
 {
-	particles[index] = particles[active_particles - 1];
-	active_particles--;
+    particles[index] = particles[active_particles - 1];
+    active_particles--;
 }
 
 /*=========================================================================
@@ -55,18 +54,18 @@ static void DeleteParticle(int index)
 //=======================================================================*/
 void DrawParticles()
 {
-	int i;
+    int i;
 
-	for (i=0; i<active_particles; i++)
-	{
-		int x, y;
+    for (i=0; i<active_particles; i++)
+    {
+        int x, y;
 
-		x = (int)particles[i].x;
-		y = (int)particles[i].y;
+        x = (int)particles[i].x;
+        y = (int)particles[i].y;
 
-		PutRect( x, y, 2, 2,
-			particles[i].r, particles[i].g, particles[i].b);
-	}
+        PutRect( x, y, 2, 2,
+            particles[i].r, particles[i].g, particles[i].b);
+    }
 }
 
 /*=========================================================================
@@ -75,32 +74,32 @@ void DrawParticles()
 //=======================================================================*/
 void UpdateParticles()
 {
-	int i;
+    int i;
 
-	for (i=0; i<active_particles; i++)
-	{
-		particles[i].x += particles[i].energy * cos(particles[i].angle * PI / 180.0);
-		particles[i].y += particles[i].dy;
-		/*
-		   for STATE_CREDITS should be used:
-		   particles[i].y += particles[i].energy * -sin(particles[i].angle * PI / 180.0);
-		*/
-		particles[i].r-=2;
-		particles[i].g-=2;
-		particles[i].b-=2;
+    for (i=0; i<active_particles; i++)
+    {
+        particles[i].x += particles[i].energy * cos(particles[i].angle * PI / 180.0);
+        particles[i].y += particles[i].dy;
+        /*
+           for STATE_CREDITS should be used:
+           particles[i].y += particles[i].energy * -sin(particles[i].angle * PI / 180.0);
+        */
+        particles[i].r-=2;
+        particles[i].g-=2;
+        particles[i].b-=2;
 
-		if (particles[i].r < 0)
-			particles[i].r = 0;
-		if (particles[i].g < 0)
-			particles[i].g = 0;
-		if (particles[i].b < 0)
-			particles[i].b = 0;
+        if (particles[i].r < 0)
+            particles[i].r = 0;
+        if (particles[i].g < 0)
+            particles[i].g = 0;
+        if (particles[i].b < 0)
+            particles[i].b = 0;
 
-		if ((particles[i].r + particles[i].g + particles[i].b) == 0) {
-			DeleteParticle(i);
-			i--;
-		}
-	}
+        if ((particles[i].r + particles[i].g + particles[i].b) == 0) {
+            DeleteParticle(i);
+            i--;
+        }
+    }
 }
 
 /*=========================================================================
@@ -108,25 +107,25 @@ void UpdateParticles()
 // Desc: This function will be called to start an explosion ;)
 //=======================================================================*/
 void CreateParticleExplosion(int x, int y, int r, int g, int b, 
-							 int energy, int density)
+                             int energy, int density)
 {
-	int i;
-	Particle particle; /* New particle */
+    int i;
+    Particle particle; /* New particle */
 
-	for (i=0; i<density; i++)
-	{
-		particle.x = x;
-		particle.y = y;
-		particle.dy = ((rand()%10)+1)/10.0;
-		particle.angle = rand()%360;
-		particle.energy = (double)(rand()%(energy * 1000)) / 1000.0;
+    for (i=0; i<density; i++)
+    {
+        particle.x = x;
+        particle.y = y;
+        particle.dy = ((rand()%10)+1)/10.0;
+        particle.angle = rand()%360;
+        particle.energy = (double)(rand()%(energy * 1000)) / 1000.0;
 
-		particle.r = r;
-		particle.g = g;
-		particle.b = b;
+        particle.r = r;
+        particle.g = g;
+        particle.b = b;
 
-		AddParticle(&particle);
-	}
+        AddParticle(&particle);
+    }
 }
 
 /*=========================================================================
@@ -135,10 +134,10 @@ void CreateParticleExplosion(int x, int y, int r, int g, int b,
 //=======================================================================*/
 int NoParticlesLeft()
 {
-	if (active_particles == 0)
-		return 1;
-	else
-		return 0;
+    if (active_particles == 0)
+        return 1;
+    else
+        return 0;
 }
 
 /*=========================================================================
@@ -147,15 +146,15 @@ int NoParticlesLeft()
 //=======================================================================*/
 void InitStars()
 {
-	int i;
+    int i;
 
-	for (i=0; i<MAX_STARS; i++)
-	{
-		stars[i].pX = (float)(rand() % SCREEN_X);
-		stars[i].pY = rand() % SCREEN_Y;
-		stars[i].vX = (float)(((rand()%100)/10)+1);
-		stars[i].clr = 255 - (100-(int)(stars[i].vX*10));
-	}
+    for (i=0; i<MAX_STARS; i++)
+    {
+        stars[i].pX = (float)(rand() % SCREEN_X);
+        stars[i].pY = rand() % SCREEN_Y;
+        stars[i].vX = (float)(((rand()%100)/10)+1);
+        stars[i].clr = 255 - (100-(int)(stars[i].vX*10));
+    }
 }
 
 /*=========================================================================
@@ -164,21 +163,21 @@ void InitStars()
 //=======================================================================*/
 void MoveStars()
 {
-	int i;
+    int i;
 
-	for (i=0; i<MAX_STARS; i++)
-	{
-		stars[i].pX += stars[i].vX;
-		if (stars[i].pX >= SCREEN_X)
-			stars[i].pX -= (float)SCREEN_X;
-		
-		if (zustand == STATE_CREDITS)
-		{
-			stars[i].pY -= stars[i].vX;
-			if (stars[i].pY < 0)
-				stars[i].pY += SCREEN_Y;
-		}
-	}
+    for (i=0; i<MAX_STARS; i++)
+    {
+        stars[i].pX += stars[i].vX;
+        if (stars[i].pX >= SCREEN_X)
+            stars[i].pX -= (float)SCREEN_X;
+        
+        if (zustand == STATE_CREDITS)
+        {
+            stars[i].pY -= stars[i].vX;
+            if (stars[i].pY < 0)
+                stars[i].pY += SCREEN_Y;
+        }
+    }
 
 }
 
@@ -188,10 +187,10 @@ void MoveStars()
 //=======================================================================*/
 void DrawStars()
 {
-	int i;
+    int i;
 
-	SDL_LockSurface(screen);
-	for (i=0; i<MAX_STARS; i++)
-		PutPixel((int)stars[i].pX, stars[i].pY, stars[i].clr, stars[i].clr, 255);
-	SDL_UnlockSurface(screen);
+    SDL_LockSurface(screen);
+    for (i=0; i<MAX_STARS; i++)
+        PutPixel((int)stars[i].pX, stars[i].pY, stars[i].clr, stars[i].clr, 255);
+    SDL_UnlockSurface(screen);
 }

@@ -31,17 +31,17 @@
 /* Structure for loaded sound files */
 typedef struct
 {
-	Uint8 *samples; /* Raw PCM data */
-	Uint32 length;  /* Soundsize (in bytes) */
+    Uint8 *samples; /* Raw PCM data */
+    Uint32 length;  /* Soundsize (in bytes) */
 } Sound, *pSound;
 
 
 /* Structure for the sound actually plaing */
 typedef struct
 {
-	int active;      /* Is the sound active? (Should be played?) */
-	pSound sound;    /* Pointer to sound data */
-	Uint32 position; /* Stream position */
+    int active;      /* Is the sound active? (Should be played?) */
+    pSound sound;    /* Pointer to sound data */
+    Uint32 position; /* Stream position */
 } SoundPlaying, *pSoundPlaying;
 
 void InitSound();

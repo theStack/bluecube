@@ -25,9 +25,9 @@
 /* Font structure */
 typedef struct
 {
-	SDL_Surface *fontBitmap;
-	int *widths;   /* Char Widths */
-	int charWidth; /* One tile's width (and height) */
+    SDL_Surface *fontBitmap;
+    int *widths;   /* Char Widths */
+    int charWidth; /* One tile's width (and height) */
 } SDLFont;
 
 
@@ -35,7 +35,7 @@ SDLFont *LoadFontfile(const char *fontfile, const char *widthfile);
 void     FreeFont(SDLFont *font);
 
 void     WriteText(SDLFont *font, int x, int y, const char *text);
-void	 WriteTextCenter(SDLFont *font,  int y, const char *text);
+void     WriteTextCenter(SDLFont *font,  int y, const char *text);
 
 /* Make my fonts available in every file including this header */
 extern SDLFont *font;

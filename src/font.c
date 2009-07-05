@@ -28,14 +28,14 @@ SDLFont *font; /* Font used for everything */
 
 static int GetCenterX(SDLFont *font, const char *text)
 {
-	int i;
-	int textWidth = 0;
-	int textLength = strlen(text);
+    int i;
+    int textWidth = 0;
+    int textLength = strlen(text);
 
-	for (i=0; i < textLength; i++)
-		textWidth += font->widths[(int)text[i]];
+    for (i=0; i < textLength; i++)
+        textWidth += font->widths[(int)text[i]];
 
-	return (SCREEN_X/2 - textWidth/2);
+    return (SCREEN_X/2 - textWidth/2);
 }
 
 /*=========================================================================
@@ -45,45 +45,45 @@ static int GetCenterX(SDLFont *font, const char *text)
 //=======================================================================*/
 SDLFont *LoadFontfile(const char *fontfile, const char *widthfile)
 {
-	int i;
-	FILE *fp;
-	SDLFont     *tempFont;    /* The font structure */
-	SDL_Surface *tempSurface; /* Temporary font surface */
+    int i;
+    FILE *fp;
+    SDLFont     *tempFont;    /* The font structure */
+    SDL_Surface *tempSurface; /* Temporary font surface */
 
-	
-	/* Create new font structure (allocate memory) */
-	tempFont = (SDLFont*)malloc(sizeof(SDLFont));
+    
+    /* Create new font structure (allocate memory) */
+    tempFont = (SDLFont*)malloc(sizeof(SDLFont));
 
-	/* Load font bitmap into the temporary surface, convert it to display format 
-	   and assign it to the font structure (then free the temporary surface) */
-	tempSurface = SDL_LoadBMP(fontfile);
-	if (tempSurface == NULL)
-	{
-		fprintf(stderr, "Couldn't load font file (%s)\n", fontfile);
-		exit(1);
-	}
-	SDL_SetColorKey(tempSurface, SDL_SRCCOLORKEY, SDL_MapRGB(tempSurface->format, 0,0,0));
-	tempFont->fontBitmap = SDL_DisplayFormat(tempSurface);
-	SDL_FreeSurface(tempSurface);
+    /* Load font bitmap into the temporary surface, convert it to display format 
+       and assign it to the font structure (then free the temporary surface) */
+    tempSurface = SDL_LoadBMP(fontfile);
+    if (tempSurface == NULL)
+    {
+        fprintf(stderr, "Couldn't load font file (%s)\n", fontfile);
+        exit(1);
+    }
+    SDL_SetColorKey(tempSurface, SDL_SRCCOLORKEY, SDL_MapRGB(tempSurface->format, 0,0,0));
+    tempFont->fontBitmap = SDL_DisplayFormat(tempSurface);
+    SDL_FreeSurface(tempSurface);
 
-	/* Allocate array for the char widths and load width-file */
-	tempFont->widths = (int*)malloc(256*sizeof(int));
-	fp = fopen(widthfile, "rb");
-	if (fp != NULL)
-	{
-		for (i=0; i<256; i++)
-			tempFont->widths[i] = fgetc(fp);
-	}
-	else
-	{
-		fprintf(stderr, "Couldn't load font widths file (%s)\n", widthfile);
-		exit(1);
-	}
+    /* Allocate array for the char widths and load width-file */
+    tempFont->widths = (int*)malloc(256*sizeof(int));
+    fp = fopen(widthfile, "rb");
+    if (fp != NULL)
+    {
+        for (i=0; i<256; i++)
+            tempFont->widths[i] = fgetc(fp);
+    }
+    else
+    {
+        fprintf(stderr, "Couldn't load font widths file (%s)\n", widthfile);
+        exit(1);
+    }
 
-	tempFont->charWidth = tempFont->fontBitmap->w / 16;
+    tempFont->charWidth = tempFont->fontBitmap->w / 16;
 
-	/* Return new created font structure */
-	return tempFont;
+    /* Return new created font structure */
+    return tempFont;
 }
 
 /*=========================================================================
@@ -92,9 +92,9 @@ SDLFont *LoadFontfile(const char *fontfile, const char *widthfile)
 //=======================================================================*/
 void FreeFont(SDLFont *font)
 {
-	free(font->widths);
-	SDL_FreeSurface(font->fontBitmap);
-	free(font);
+    free(font->widths);
+    SDL_FreeSurface(font->fontBitmap);
+    free(font);
 }
 
 /*=========================================================================
@@ -103,25 +103,25 @@ void FreeFont(SDLFont *font)
 //=======================================================================*/
 void WriteText(SDLFont *font, int x, int y, const char *text)
 {
-	int i;
-	int nextX=0;
-	int text_length = strlen(text);
-	int ascii;
-	
-	for (i=0; i<text_length; i++)
-	{
-		ascii = (int)text[i];
-		
-		BlitIMG(
-				font->fontBitmap, x+nextX, y,
-				(ascii%16 * font->charWidth) +
-				((font->charWidth/2) - (font->widths[ascii])/2),
-				((ascii/16)-2) * font->charWidth,
-				font->widths[ascii],
-				font->charWidth);
+    int i;
+    int nextX=0;
+    int text_length = strlen(text);
+    int ascii;
+    
+    for (i=0; i<text_length; i++)
+    {
+        ascii = (int)text[i];
+        
+        BlitIMG(
+                font->fontBitmap, x+nextX, y,
+                (ascii%16 * font->charWidth) +
+                ((font->charWidth/2) - (font->widths[ascii])/2),
+                ((ascii/16)-2) * font->charWidth,
+                font->widths[ascii],
+                font->charWidth);
 
-		nextX += font->widths[ascii];
-	}
+        nextX += font->widths[ascii];
+    }
 }
 
 /*=========================================================================
@@ -131,11 +131,11 @@ void WriteText(SDLFont *font, int x, int y, const char *text)
 //=======================================================================*/
 void WriteTextCenter(SDLFont *font, int y, const char *text)
 {
-	int x;
+    int x;
 
-	/* Calculate X-Position */
-	x = GetCenterX(font, text);
+    /* Calculate X-Position */
+    x = GetCenterX(font, text);
 
-	/* Draw text with the calculated position */
-	WriteText(font, x, y, text);
+    /* Draw text with the calculated position */
+    WriteText(font, x, y, text);
 }

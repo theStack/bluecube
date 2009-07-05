@@ -36,26 +36,26 @@ void InitSDLex()
     if (bSoundActivated)
         init_flags |= SDL_INIT_AUDIO;
 
-	if (SDL_Init(init_flags) < 0)
-	{
-		fprintf(stderr, "Couldn't init SDL -> %s\n", SDL_GetError());
-		exit(1);
-	}
-	atexit(SDL_Quit);
+    if (SDL_Init(init_flags) < 0)
+    {
+        fprintf(stderr, "Couldn't init SDL -> %s\n", SDL_GetError());
+        exit(1);
+    }
+    atexit(SDL_Quit);
     if (bSoundActivated)
-	    atexit(SDL_CloseAudio); 
+        atexit(SDL_CloseAudio); 
 
-	/* Set video mode */
-	screen = SDL_SetVideoMode(SCREEN_X, SCREEN_Y, SCREEN_BPP, 
-		SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
-	if (screen == NULL)
-	{
-		fprintf(stderr, "Couldn't set video mode -> %s\n", SDL_GetError());
-		exit(1);
-	}
+    /* Set video mode */
+    screen = SDL_SetVideoMode(SCREEN_X, SCREEN_Y, SCREEN_BPP, 
+        SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+    if (screen == NULL)
+    {
+        fprintf(stderr, "Couldn't set video mode -> %s\n", SDL_GetError());
+        exit(1);
+    }
 
-	SDL_WM_SetCaption("BlueCube", "BlueCube");
-	SDL_ShowCursor(SDL_DISABLE);
+    SDL_WM_SetCaption("BlueCube", "BlueCube");
+    SDL_ShowCursor(SDL_DISABLE);
 }
 
 /*=========================================================================
@@ -64,9 +64,9 @@ void InitSDLex()
 //=======================================================================*/
 void PutPixel(int x, int y, int r, int g, int b)
 {
-	Uint8 *p = (Uint8*)screen->pixels + y * screen->pitch + x*2;
-	
-	*(Uint16 *)p = SDL_MapRGB(screen->format, r,g,b);
+    Uint8 *p = (Uint8*)screen->pixels + y * screen->pitch + x*2;
+    
+    *(Uint16 *)p = SDL_MapRGB(screen->format, r,g,b);
 }
 
 /*=========================================================================
@@ -75,13 +75,13 @@ void PutPixel(int x, int y, int r, int g, int b)
 //=======================================================================*/
 void PutRect(int x, int y, int w, int h, int r, int g, int b)
 {
-	SDL_Rect rect;
-	rect.x = x;
-	rect.y = y;
-	rect.w = w;
-	rect.h = h;
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = h;
 
-	SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
+    SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
 }
 
 
@@ -91,14 +91,14 @@ void PutRect(int x, int y, int w, int h, int r, int g, int b)
 //=======================================================================*/
 void BlitIMG(SDL_Surface *img, int x, int y, int x2, int y2, int w, int h)
 {
-	SDL_Rect dst, src;
+    SDL_Rect dst, src;
 
-	dst.x = x;
-	dst.y = y;
-	src.x = x2;
-	src.y = y2;
-	src.w = w;
-	src.h = h;
+    dst.x = x;
+    dst.y = y;
+    src.x = x2;
+    src.y = y2;
+    src.w = w;
+    src.h = h;
 
-	SDL_BlitSurface(img, &src, screen, &dst);
+    SDL_BlitSurface(img, &src, screen, &dst);
 }

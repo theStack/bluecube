@@ -29,30 +29,30 @@
 /* Brick structure */
 typedef struct
 {
-	int style; /* Brickstyle (color) */
+    int style; /* Brickstyle (color) */
 } CBrick;
 
 /* Cluster (falling piece) structure */
 typedef struct
 {
-	int x, y;       /* Position */
-	int pieceValue; /* Cluster value */
-	int turnValue;  /* Rotation value */
-	int data[CLUSTER_X][CLUSTER_Y]; /* Data */
-	unsigned dropCount;
+    int x, y;       /* Position */
+    int pieceValue; /* Cluster value */
+    int turnValue;  /* Rotation value */
+    int data[CLUSTER_X][CLUSTER_Y]; /* Data */
+    unsigned dropCount;
 } CCluster;
 
 /* Drawing attributes for the box */
 typedef struct
 {
-	int box_x;          /* X-Position */ 
-	int box_y;          /* Y-Position */
-	int box_l;          /* Space between the bricks */
-	int brick_width;    /* Brick's width */
-	int brick_height;   /* Brick's height */
+    int box_x;          /* X-Position */ 
+    int box_y;          /* Y-Position */
+    int box_l;          /* Space between the bricks */
+    int brick_width;    /* Brick's width */
+    int brick_height;   /* Brick's height */
 
-	int box_width;      /* Box' width */
-	int box_height;     /* Box' height */
+    int box_width;      /* Box' width */
+    int box_height;     /* Box' height */
 } CBoxDraw;
 
 void InitBox(void);                         /* Clear box */
