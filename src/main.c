@@ -44,7 +44,7 @@ int lines, score;       /* Line counter and score */
 int nextPiece;          /* Next cluster  */
 int level;              /* Current level */
 
-int zustand;     /* Current state */
+int gamestate;    /* Current state */
 int bDone=0;     /* Want to Exit? */
 int bPause;      /* Pause? */
 int bCrazy;      /* Yahooooooooooo ;) CRAZY MODE ^.^ */
@@ -103,14 +103,16 @@ int main(int argc, char *argv[])
     /* Init star background */
     InitStars();
 
-    ClearPlayingSounds();
-    SDL_PauseAudio(0);
+    if (bSoundActivated) {
+        ClearPlayingSounds();
+        SDL_PauseAudio(0);
+    }
 
-    zustand = STATE_MENU;
+    gamestate = STATE_MENU;
 
     while (!bDone) /* Mainloop */
     {
-        switch (zustand)
+        switch (gamestate)
         {
         case STATE_MENU:
             MainMenu_Loop();
@@ -129,7 +131,7 @@ int main(int argc, char *argv[])
                     switch (event.key.keysym.sym)
                     {
                     case SDLK_ESCAPE:
-                        zustand = STATE_MENU;
+                        gamestate = STATE_MENU;
                         break;
                     default: break;
                     }
@@ -267,7 +269,7 @@ static void NewGame()
     bCrazy = 0; /* No crazymode :) */
     bGameOver = 0;
 
-    zustand = STATE_PLAY; /* Set playstate */
+    gamestate = STATE_PLAY; /* Set playstate */
 }
 
 /*=========================================================================
@@ -314,12 +316,12 @@ static void MainMenu_Loop()
                     NewGame();
                     break;
                 case 2:
-                    zustand = STATE_CREDITS;
+                    gamestate = STATE_CREDITS;
                     ShowCredits();
-                    zustand = STATE_MENU;
+                    gamestate = STATE_MENU;
                     break;
                 case 3:
-                    zustand = STATE_EXIT;
+                    gamestate = STATE_EXIT;
                     break;
                 }
                 break;
@@ -519,6 +521,6 @@ static void GameOverAnimation()
     else
     {
         if (NoParticlesLeft())
-            zustand = STATE_MENU;
+            gamestate = STATE_MENU;
     }   
 }

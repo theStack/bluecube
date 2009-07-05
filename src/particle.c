@@ -25,7 +25,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-extern int zustand; /* Evil coding style... */
+extern int gamestate; /* Evil coding style... */
 
 Particle particles[MAX_PARTICLES];
 Star stars[MAX_STARS];
@@ -171,7 +171,7 @@ void MoveStars()
         if (stars[i].pX >= SCREEN_X)
             stars[i].pX -= (float)SCREEN_X;
         
-        if (zustand == STATE_CREDITS)
+        if (gamestate == STATE_CREDITS)
         {
             stars[i].pY -= stars[i].vX;
             if (stars[i].pY < 0)
