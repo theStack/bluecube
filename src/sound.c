@@ -30,6 +30,8 @@ SoundPlaying sounds[MAX_PLAYING_SOUNDS]; /* Array with all the sounds */
 Sound sndLine;       /* Will be played when a line is cleared */
 Sound sndNextlevel;  /* Will be played when the next level is reached */
 
+int bSoundActivated; /* Sound system started? */
+
 static void AudioCallback(void *user_data, Uint8 *audio, int length);
 
 /*=========================================================================
@@ -90,6 +92,9 @@ void ClearPlayingSounds()
 void PutSound(pSound sound)
 {
 	int i;
+
+    if (!bSoundActivated)
+        return;
 
 	/* Find first free slot in array */
 	for (i=0; i<MAX_PLAYING_SOUNDS; i++) {

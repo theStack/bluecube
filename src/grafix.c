@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "grafix.h"
+#include "sound.h"
 
 SDL_Surface *screen; /* Primary Surface */
 
@@ -31,13 +32,18 @@ SDL_Surface *screen; /* Primary Surface */
 //=======================================================================*/
 void InitSDLex()
 {
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+    int init_flags = SDL_INIT_VIDEO;
+    if (bSoundActivated)
+        init_flags |= SDL_INIT_AUDIO;
+
+	if (SDL_Init(init_flags) < 0)
 	{
 		fprintf(stderr, "Couldn't init SDL -> %s\n", SDL_GetError());
 		exit(1);
 	}
 	atexit(SDL_Quit);
-	atexit(SDL_CloseAudio); 
+    if (bSoundActivated)
+	    atexit(SDL_CloseAudio); 
 
 	/* Set video mode */
 	screen = SDL_SetVideoMode(SCREEN_X, SCREEN_Y, SCREEN_BPP, 

@@ -44,14 +44,16 @@ typedef struct
 	Uint32 position; /* Stream position */
 } SoundPlaying, *pSoundPlaying;
 
-void InitSound(void);
+void InitSound();
 void LoadSound(char *soundfile, pSound sound);
-void ClearPlayingSounds(void);
+void ClearPlayingSounds();
 void PutSound(pSound sound);
 
 
 /* Make my sounds available in every file including this header */
 extern Sound sndLine;
 extern Sound sndNextlevel;
+
+extern int bSoundActivated; /* Sound system started? */
 
 #endif

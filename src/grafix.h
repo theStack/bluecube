@@ -24,13 +24,16 @@
 
 #include "SDL.h"
 
+/* Screen resolution and color depth */
 #define SCREEN_X   640
 #define SCREEN_Y   480
 #define SCREEN_BPP 16
 
-void InitSDLex(void);
+void InitSDLex();
 void PutPixel(int x, int y, int r, int g, int b);
 void PutRect(int x, int y, int w, int h, int r, int g, int b);
 void BlitIMG(SDL_Surface *img, int x, int y, int x2, int y2, int w, int h);
+
+extern SDL_Surface* screen;
 
 #endif

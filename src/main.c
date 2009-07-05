@@ -30,8 +30,6 @@
 #include "box.h"
 #include "credits.h"
 
-extern SDL_Surface* screen;
-
 Uint32 TimeLeft(void);
 static void NewGame(void);
 static void MainMenu_Loop(void);
@@ -60,18 +58,47 @@ int x,y;         /* Current explosion coordinates */
 //=======================================================================*/
 int main(int argc, char *argv[])
 {
+    printf("-----------------------------------------------------\n");
+    printf(" BlueCube (improved version v0.9 hosted on github)   \n");
+    printf("    just another tetris clone,                       \n");
+    printf("    written by Sebastian Falbesoner <theStack>       \n");
+    printf("-----------------------------------------------------\n");
+    
+    /* First, check whether sound should be activated */
+    bSoundActivated = 1;
+    if ((argc == 2) && (strcmp(argv[1], "--nosound") == 0)) {
+        printf("No sound is used!\n");
+        bSoundActivated = 0;
+    }
+
 	/* Init randomizer */
+    printf("Initializing randomizer... ");
 	srand(time(NULL));
+    printf("done.\n");
 	
 	/* Let's init the graphics and sound system */
+    printf("Starting up SDL... ");
 	InitSDLex();
-	InitSound();
+    printf("done.\n");
+    if (bSoundActivated) {
+        printf("Initializing sound subsystem... ");
+	    InitSound();
+        printf("done.\n");
+    }
 	
 	/* Load font */
+    printf("Loading font files... ");
 	font = LoadFontfile("font/font.dat", "font/widths.dat");
+    printf("done.\n");
+
 	/* Load soundfiles */
-	LoadSound("sound/killline.snd", &sndLine);
-	LoadSound("sound/nextlev.snd",  &sndNextlevel);
+    if (bSoundActivated) {
+        printf("Loading sound files... ");
+    	LoadSound("sound/killline.snd", &sndLine);
+    	LoadSound("sound/nextlev.snd",  &sndNextlevel);
+        printf("done.\n");
+    }
+    printf("=== Let the fun begin! ===\n");
 
 	/* Init star background */
 	InitStars();
@@ -80,7 +107,6 @@ int main(int argc, char *argv[])
 	SDL_PauseAudio(0);
 
 	zustand = STATE_MENU;
-
 
 	while (!bDone) /* Mainloop */
 	{
@@ -186,11 +212,17 @@ int main(int argc, char *argv[])
 	}
 
 	/* Free sounds again */
-	SDL_FreeWAV(sndLine.samples); 
-	SDL_FreeWAV(sndNextlevel.samples);
+    if (bSoundActivated) {
+        printf("Releasing memory for sound samples... ");
+    	SDL_FreeWAV(sndLine.samples); 
+    	SDL_FreeWAV(sndNextlevel.samples);
+        printf("done.\n");
+    }
 
 	/* Free font again */
+    printf("Releasing memory for fonts... ");
 	FreeFont(font);
+    printf("done.\n");
 
 	return 0;
 }
