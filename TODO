@@ -1,0 +1,5 @@
+-> Create brick graphics (instead of drawing rectangles)
+-> Convert the bitmap-font to png format and use SDL_image
+-> Use SDL_mixer for sound
+-> Dynamic box size
+-> Create highscore list

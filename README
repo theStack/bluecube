@@ -1,0 +1,60 @@
+=============================
+        BlueCube 0.9
+ "just another tetris clone"
+=============================
+
+Index
+-----------------------------
+  1. Description
+  2. How to compile BlueCube
+  3. Game instructions
+  4. Additional notes
+-----------------------------
+
+
+----------------------
+=== 1. Description ===
+----------------------
+'BlueCube' is just another simple (and silly) tetris clone :)
+
+
+----------------------------------
+=== 2. How to compile BlueCube ===
+----------------------------------
+Just type 'make' to build the binary (called 'bluecube').
+Get sure that you have installed gcc and the SDL development packages!
+
+
+----------------------------
+=== 3. Game instructions ===
+----------------------------
+I think everybody knows good old Tetris and it's not too hard to play.
+The 'cluster' (the piece which is falling down) can be controlled
+with the arrow keys:
+
+Arrow left ....... Move cluster to the left
+Arrow right ...... Move cluster to the right
+Arrow down ....... Move cluster down
+Arrow up ......... Rotate cluster
+
+The cluster can also be 'dropped', which means that he reaches the
+underground immediately and the next cluster will be created.
+
+Space bar ........ Drop cluster
+
+It's quite obvious that the objective of the game is to resolve as
+many lines as possible. There are also different levels (as in the original
+Tetris), which simply differ from the falling speed of the clusters.
+To get to the next level, just make lines, lines and lines... ;)
+
+
+---------------------------
+=== 4. Additional notes ===
+---------------------------
+I hope you have fun with this game...
+
+For comments, suggestions, questions or other stuff you can drop me a line
+(the_stack@users.sourceforge.net) or contact me over ICQ (#166224863).
+
+Greetings,
+  Sebastian Falbesoner (the_stack) / 17.12.2003
