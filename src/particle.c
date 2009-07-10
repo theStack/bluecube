@@ -25,6 +25,31 @@
 #include <math.h>
 #include <stdlib.h>
 
+/***************************  Particle system *****************************/
+#define MAX_PARTICLES 2000
+#define PI 3.14159
+
+/* Structure for a particle */
+typedef struct
+{
+    double x, y;   /* Position */
+    double dy;     /* Second axis movement vector */
+    double angle;  /* Angle */
+    double energy; /* Energy */
+    int r, g, b;   /* Color */
+} Particle, *pParticle;
+
+/**************************** Star background *****************************/
+#define MAX_STARS  100
+/* Structure for a star */
+typedef struct
+{
+    float pX;      /* X-Position of the star */
+    int   pY;      /* Y-Position of the star */
+    float vX;      /* First axis movement vector (speed) */
+    int   clr;     /* Color value ==> RGB(clr, clr, 255) */
+} Star;
+
 extern int gamestate; /* Evil coding style... */
 
 Particle particles[MAX_PARTICLES];

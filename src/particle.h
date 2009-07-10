@@ -22,42 +22,15 @@
 #ifndef __PARTICLE_H__
 #define __PARTICLE_H__
 
-/***************************  Particle system *****************************/
-#define MAX_PARTICLES 2000
-#define PI 3.14159
-
-/* Structure for a particle */
-typedef struct
-{
-    double x, y;   /* Position */
-    double dy;     /* Second axis movement vector */
-    double angle;  /* Angle */
-    double energy; /* Energy */
-    int r, g, b;   /* Color */
-
-} Particle, *pParticle;
-
 /* Particle system function prototypes */
-void DrawParticles(void);
-void UpdateParticles(void);
+void DrawParticles();
+void UpdateParticles();
 void CreateParticleExplosion(int x, int y, int r, int g, int b, int energy, int density);
-int  NoParticlesLeft(void);
-
-/**************************** Star background *****************************/
-#define MAX_STARS  100
-
-/* Structure for a star */
-typedef struct
-{
-    float pX;      /* X-Position of the star */
-    int   pY;      /* Y-Position of the star */
-    float vX;      /* First axis movement vector (speed) */
-    int   clr;     /* Color value ==> RGB(clr, clr, 255) */
-} Star;
+int  NoParticlesLeft();
 
 /* Star background function prototypes */
-void InitStars(void);
-void MoveStars(void);
-void DrawStars(void);
+void InitStars();
+void MoveStars();
+void DrawStars();
 
 #endif
