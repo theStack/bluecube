@@ -23,9 +23,10 @@
 #define __PARTICLE_H__
 
 /* Particle system function prototypes */
-void DrawParticles();
-void UpdateParticles();
 void CreateParticleExplosion(int x, int y, int r, int g, int b, int energy, int density);
+void DestroyParticles();
+void UpdateParticles();
+void DrawParticles();
 int  NoParticlesLeft();
 
 /* Star background function prototypes */

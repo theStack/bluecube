@@ -258,6 +258,7 @@ static void NewGame()
 {
     InitBox(); /* Clear Box */
     BoxDrawInit(); /* Init boxdraw values */
+    DestroyParticles(); /* Destroy any particles that might be left */
     
     lines = 0; /* Reset lines counter */
     score = 0; /* Reset score */

@@ -166,6 +166,15 @@ int NoParticlesLeft()
 }
 
 /*=========================================================================
+// Name: DestroyParticles()
+// Desc: Just destroy all particles immediately
+//=======================================================================*/
+void DestroyParticles()
+{
+    active_particles = 0;
+}
+
+/*=========================================================================
 // Name: InitStars()
 // Desc: Inits the star array with random values
 //=======================================================================*/
