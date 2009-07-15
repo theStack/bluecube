@@ -30,6 +30,8 @@
 #include "box.h"
 #include "mainmenu.h"
 
+/*#define DEBUG_CHANGE_LEVEL_WITH_KEYS*/
+
 static void Mainloop();
 Uint32 TimeLeft();
 static void Game_Loop();
@@ -99,7 +101,7 @@ void Mainloop()
                         }
                         break;
                         
-                    /* Only for debugging...
+#ifdef DEBUG_CHANGE_LEVEL_WITH_KEYS
                     case SDLK_w:
                         if (level < 10) {
                             level++;
@@ -110,7 +112,7 @@ void Mainloop()
                         if (level > 0)
                             level--;
                         break;
-                    */
+#endif
                     default: break;
                     }
                     else if (event.key.keysym.sym == SDLK_p) /* deactivate pause mode again */
