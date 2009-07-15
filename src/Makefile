@@ -1,4 +1,4 @@
-OBJECTS = main.o box.o pieces.o credits.o grafix.o font.o particle.o sound.o
+OBJECTS = main.o box.o pieces.o credits.o grafix.o font.o particle.o sound.o mainmenu.o
 SDL_INCLUDE = `sdl-config --cflags`
 SDL_LINK = `sdl-config --libs`
 
@@ -28,3 +28,6 @@ particle.o: particle.c
 
 sound.o: sound.c
 	gcc -c sound.c $(SDL_INCLUDE) -Wall -ansi
+
+mainmenu.o: mainmenu.c
+	gcc -c mainmenu.c $(SDL_INCLUDE) -Wall -ansi

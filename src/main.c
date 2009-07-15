@@ -28,11 +28,9 @@
 #include "particle.h"
 #include "font.h"
 #include "box.h"
-#include "credits.h"
+#include "mainmenu.h"
 
 Uint32 TimeLeft(void);
-static void NewGame(void);
-static void MainMenu_Loop(void);
 static void Game_Loop(void);
 static void DrawScene(void);
 void StartGameOverAnimation(void);
@@ -254,7 +252,7 @@ Uint32 TimeLeft()
 // Name: NewGame()
 // Desc: Starts a new game
 //=======================================================================*/
-static void NewGame()
+void NewGame()
 {
     InitBox(); /* Clear Box */
     BoxDrawInit(); /* Init boxdraw values */
@@ -271,106 +269,6 @@ static void NewGame()
     bGameOver = 0;
 
     gamestate = STATE_PLAY; /* Set playstate */
-}
-
-/*=========================================================================
-// Name: MainMenu_Loop()
-// Desc: The main menu loop (nasty function...)
-//=======================================================================*/
-static void MainMenu_Loop()
-{
-    int i;
-    static int iAuswahl = 1;  /* Current selection in the menu */
-    static int MoveValue = 0; /* X-Position of the text */
-    static int bMoveDirection = 1;  /* 0=left, 1=right */
-    const int yPositions[3] = {180, 250, 320};
-    const int xPositions[3] = {251, 271, 291};
-    const char *labels[3] = {"    .go!", "  .about", "    .quit"};
-    const char *descriptions[3] = {
-        "Let the fun begin!", "Credits and other stuff...", "Please don't leave me alone!" };
-
-    while (SDL_PollEvent(&event))
-    {
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            bDone = 1;
-            break;
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_UP:
-                iAuswahl--;      
-                if (iAuswahl < 1)
-                    iAuswahl = 3;
-                break;
-            case SDLK_DOWN:
-                iAuswahl++;
-                if (iAuswahl > 3)
-                    iAuswahl = 1;
-                break;
-            case SDLK_RETURN:
-            case SDLK_SPACE:
-                switch (iAuswahl)
-                {
-                case 1:
-                    NewGame();
-                    break;
-                case 2:
-                    gamestate = STATE_CREDITS;
-                    ShowCredits();
-                    gamestate = STATE_MENU;
-                    break;
-                case 3:
-                    gamestate = STATE_EXIT;
-                    break;
-                }
-                break;
-            default: break;
-            }
-            break;
-        }
-    }
-
-    /* Move activated text */
-    if (bMoveDirection)
-    {
-        MoveValue+=2;
-        if (MoveValue == 6)
-            bMoveDirection = 0;
-    }
-    else
-    {
-        MoveValue-=2;
-        if (MoveValue == -6)
-            bMoveDirection = 1;
-    }
-
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0,0,0));
-    PutRect(220, 150, 210, 230, 16,16,16);
-    MoveStars();   /* Move stars */
-    DrawStars();   /* Draw stars */
-    WriteTextCenter(font, 80, HEADLINE);
-
-    /* Draw "text marker" */
-    PutRect(xPositions[iAuswahl-1]-10, yPositions[iAuswahl-1]+MoveValue, 140, 32, 
-        0,(iAuswahl-1)*32,(iAuswahl+1)*50);
-    
-    for (i=0; i<3; i++)
-        if (i == iAuswahl-1)
-            WriteText(font, xPositions[i]+MoveValue, yPositions[i]+(MoveValue/2), labels[i]);
-        else
-            WriteText(font, xPositions[i], yPositions[i], labels[i]);
-        
-    PutRect(0,0,640,40, 32,32,32);
-    PutRect(0,40,640,3,128,128,128);
-    WriteTextCenter(font, 3, "just another tetris clone");
-    
-    PutRect(0,437,640,3, 128,128,128);
-    PutRect(0,440,640,40, 32,32,32);
-    WriteTextCenter(font, 445, descriptions[iAuswahl-1]);
-
-    SDL_Flip(screen);
 }
 
 /*=========================================================================
@@ -494,8 +392,7 @@ static void GameOverAnimation()
 {
     static int counter = 1; /* Sound counter */
 
-    if (bExplode)
-    {
+    if (bExplode) {
         while (!IsBrickSet(x,y)) /* Search for the next brick */
         {
             x++;
@@ -519,9 +416,6 @@ static void GameOverAnimation()
             counter = 6;
         }
     }
-    else
-    {
-        if (NoParticlesLeft())
-            gamestate = STATE_MENU;
-    }   
+    else if (NoParticlesLeft())
+        gamestate = STATE_MENU;
 }
