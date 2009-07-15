@@ -30,11 +30,12 @@
 #include "box.h"
 #include "mainmenu.h"
 
-Uint32 TimeLeft(void);
-static void Game_Loop(void);
-static void DrawScene(void);
-void StartGameOverAnimation(void);
-static void GameOverAnimation(void);
+static void Mainloop();
+Uint32 TimeLeft();
+static void Game_Loop();
+static void DrawScene();
+void StartGameOverAnimation();
+static void GameOverAnimation();
 
 SDL_Event event;
 
@@ -51,63 +52,11 @@ int bExplode;    /* Explosion is active? */
 int x,y;         /* Current explosion coordinates */
 
 /*=========================================================================
-// Name: main()
-// Desc: Entrypoint
+// Name: Mainloop()
+// Desc: the one and only mainloop ;-)
 //=======================================================================*/
-int main(int argc, char *argv[])
+void Mainloop()
 {
-    printf("-----------------------------------------------------\n");
-    printf(" BlueCube (improved version v0.9 hosted on github)   \n");
-    printf("    just another tetris clone,                       \n");
-    printf("    written by Sebastian Falbesoner <theStack>       \n");
-    printf("-----------------------------------------------------\n");
-    
-    /* First, check whether sound should be activated */
-    bSoundActivated = 1;
-    if ((argc == 2) && (strcmp(argv[1], "--nosound") == 0)) {
-        printf("No sound is used!\n");
-        bSoundActivated = 0;
-    }
-
-    /* Init randomizer */
-    printf("Initializing randomizer... ");
-    srand(time(NULL));
-    printf("done.\n");
-    
-    /* Let's init the graphics and sound system */
-    printf("Starting up SDL... ");
-    InitSDLex();
-    printf("done.\n");
-    if (bSoundActivated) {
-        printf("Initializing sound subsystem... ");
-        InitSound();
-        printf("done.\n");
-    }
-    
-    /* Load font */
-    printf("Loading font files... ");
-    font = LoadFontfile("font/font.dat", "font/widths.dat");
-    printf("done.\n");
-
-    /* Load soundfiles */
-    if (bSoundActivated) {
-        printf("Loading sound files... ");
-        LoadSound("sound/killline.snd", &sndLine);
-        LoadSound("sound/nextlev.snd",  &sndNextlevel);
-        printf("done.\n");
-    }
-    printf("=== Let the fun begin! ===\n");
-
-    /* Init star background */
-    InitStars();
-
-    if (bSoundActivated) {
-        ClearPlayingSounds();
-        SDL_PauseAudio(0);
-    }
-
-    gamestate = STATE_MENU;
-
     while (!bDone) /* Mainloop */
     {
         switch (gamestate)
@@ -122,17 +71,11 @@ int main(int argc, char *argv[])
             {
                 switch (event.type)
                 {
-                case SDL_QUIT:
-                    bDone = 1;
-                    break;
+                case SDL_QUIT: bDone = 1; break;
                 case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym)
-                    {
-                    case SDLK_ESCAPE:
+                    /* Escape can be pressed everytime to get back to the menu */
+                    if (event.key.keysym.sym == SDLK_ESCAPE) 
                         gamestate = STATE_MENU;
-                        break;
-                    default: break;
-                    }
 
                     if (!bPause && !bGameOver) /* Is the game active? */
                     switch (event.key.keysym.sym)
@@ -141,30 +84,20 @@ int main(int argc, char *argv[])
                         MoveCluster(1); /* "drop" cluster...      */
                         NewCluster();   /* ... and create new one */
                         break;
-                    case SDLK_DOWN:
-                        if (MoveCluster(0))
-                            NewCluster();
-                        break;
-                    case SDLK_LEFT:
-                        MoveClusterLeft();
-                        break;
-                    case SDLK_RIGHT:
-                        MoveClusterRight();
-                        break;
-                    case SDLK_UP:
-                        TurnClusterRight();
-                        break;
-                    case SDLK_p:
-                        bPause = 1; /* Activate pause mode */
-                        break;
+                    case SDLK_DOWN:  if (MoveCluster(0)) NewCluster(); break;
+                    case SDLK_LEFT:  MoveClusterLeft();  break;
+                    case SDLK_RIGHT: MoveClusterRight(); break;
+                    case SDLK_UP:    TurnClusterRight(); break;
+                    case SDLK_p:     bPause = 1; break; /* Activate pause mode */
                     
-                    case SDLK_c:
+                    case SDLK_c: /* Crazy mode... */
                         if (!bCrazy)
                             bCrazy = 1;
                         else {
                             BoxDrawInit();
                             bCrazy = 0;
                         }
+                        break;
                         
                     /* Only for debugging...
                     case SDLK_w:
@@ -178,16 +111,10 @@ int main(int argc, char *argv[])
                             level--;
                         break;
                     */
-                        
                     default: break;
                     }
-                    else
-                    switch (event.key.keysym.sym)
-                    {
-                    case SDLK_p:
+                    else if (event.key.keysym.sym == SDLK_p) /* deactivate pause mode again */
                         bPause = 0;
-                    default: break;
-                    }
 
                     break;
                 }
@@ -210,24 +137,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
-
-    /* Free sounds again */
-    if (bSoundActivated) {
-        printf("Releasing memory for sound samples... ");
-        SDL_FreeWAV(sndLine.samples); 
-        SDL_FreeWAV(sndNextlevel.samples);
-        printf("done.\n");
-    }
-
-    /* Free font again */
-    printf("Releasing memory for fonts... ");
-    FreeFont(font);
-    printf("done.\n");
-
-    return 0;
 }
-
-
 
 /*=========================================================================
 // Name: TimeLeft()
@@ -418,4 +328,82 @@ static void GameOverAnimation()
     }
     else if (NoParticlesLeft())
         gamestate = STATE_MENU;
+}
+
+/*=========================================================================
+// Name: main()
+// Desc: Entrypoint
+//=======================================================================*/
+int main(int argc, char *argv[])
+{
+    printf("-----------------------------------------------------\n");
+    printf(" BlueCube (improved version v0.9 hosted on github)   \n");
+    printf("    just another tetris clone,                       \n");
+    printf("    written by Sebastian Falbesoner <theStack>       \n");
+    printf("-----------------------------------------------------\n");
+    
+    /* First, check whether sound should be activated */
+    bSoundActivated = 1;
+    if ((argc == 2) && (strcmp(argv[1], "--nosound") == 0)) {
+        printf("No sound is used!\n");
+        bSoundActivated = 0;
+    }
+
+    /* Init randomizer */
+    printf("Initializing randomizer... ");
+    srand(time(NULL));
+    printf("done.\n");
+    
+    /* Let's init the graphics and sound system */
+    printf("Starting up SDL... ");
+    InitSDLex();
+    printf("done.\n");
+    if (bSoundActivated) {
+        printf("Initializing sound subsystem... ");
+        InitSound();
+        printf("done.\n");
+    }
+    
+    /* Load font */
+    printf("Loading font files... ");
+    font = LoadFontfile("font/font.dat", "font/widths.dat");
+    printf("done.\n");
+
+    /* Load soundfiles */
+    if (bSoundActivated) {
+        printf("Loading sound files... ");
+        LoadSound("sound/killline.snd", &sndLine);
+        LoadSound("sound/nextlev.snd",  &sndNextlevel);
+        printf("done.\n");
+    }
+    printf("=== Let the fun begin! ===\n");
+
+    /* Init star background */
+    InitStars();
+
+    if (bSoundActivated) {
+        ClearPlayingSounds();
+        SDL_PauseAudio(0);
+    }
+
+    /* Start menu first, please... */
+    gamestate = STATE_MENU;
+
+    /* Call main loop */
+    Mainloop();
+
+    /* Free sounds again */
+    if (bSoundActivated) {
+        printf("Releasing memory for sound samples... ");
+        SDL_FreeWAV(sndLine.samples); 
+        SDL_FreeWAV(sndNextlevel.samples);
+        printf("done.\n");
+    }
+
+    /* Free font again */
+    printf("Releasing memory for fonts... ");
+    FreeFont(font);
+    printf("done.\n");
+
+    return 0;
 }
