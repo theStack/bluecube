@@ -39,8 +39,6 @@ static void DrawScene();
 void StartGameOverAnimation();
 static void GameOverAnimation();
 
-SDL_Event event;
-
 int lines, score;       /* Line counter and score */
 int nextPiece;          /* Next cluster  */
 int level;              /* Current level */
@@ -59,6 +57,8 @@ int x,y;         /* Current explosion coordinates */
 //=======================================================================*/
 void Mainloop()
 {
+    SDL_Event event;
+
     while (!bDone) { /* Mainloop */
         switch (gamestate) {
         case STATE_MENU:
