@@ -35,20 +35,10 @@ typedef struct
     Uint32 length;  /* Soundsize (in bytes) */
 } Sound, *pSound;
 
-
-/* Structure for the sound actually plaing */
-typedef struct
-{
-    int active;      /* Is the sound active? (Should be played?) */
-    pSound sound;    /* Pointer to sound data */
-    Uint32 position; /* Stream position */
-} SoundPlaying, *pSoundPlaying;
-
 void InitSound();
 void LoadSound(char *soundfile, pSound sound);
 void ClearPlayingSounds();
 void PutSound(pSound sound);
-
 
 /* Make my sounds available in every file including this header */
 extern Sound sndLine;

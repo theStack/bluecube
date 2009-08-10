@@ -21,9 +21,16 @@
 
 #include "SDL.h"
 #include "sound.h"
-
 #include <stdlib.h>
 #include <string.h>
+
+/* Structure for the sound actually plaing */
+typedef struct
+{
+    int active;      /* Is the sound active? (Should be played?) */
+    pSound sound;    /* Pointer to sound data */
+    Uint32 position; /* Stream position */
+} SoundPlaying, *pSoundPlaying;
 
 SoundPlaying sounds[MAX_PLAYING_SOUNDS]; /* Array with all the sounds */
 
