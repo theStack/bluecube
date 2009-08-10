@@ -57,8 +57,7 @@ SDLFont *LoadFontfile(const char *fontfile, const char *widthfile)
     /* Load font bitmap into the temporary surface, convert it to display format 
        and assign it to the font structure (then free the temporary surface) */
     tempSurface = SDL_LoadBMP(fontfile);
-    if (tempSurface == NULL)
-    {
+    if (tempSurface == NULL) {
         fprintf(stderr, "Couldn't load font file (%s)\n", fontfile);
         exit(1);
     }
@@ -69,13 +68,11 @@ SDLFont *LoadFontfile(const char *fontfile, const char *widthfile)
     /* Allocate array for the char widths and load width-file */
     tempFont->widths = (int*)malloc(256*sizeof(int));
     fp = fopen(widthfile, "rb");
-    if (fp != NULL)
-    {
+    if (fp != NULL) {
         for (i=0; i<256; i++)
             tempFont->widths[i] = fgetc(fp);
     }
-    else
-    {
+    else {
         fprintf(stderr, "Couldn't load font widths file (%s)\n", widthfile);
         exit(1);
     }
@@ -108,8 +105,7 @@ void WriteText(SDLFont *font, int x, int y, const char *text)
     int text_length = strlen(text);
     int ascii;
     
-    for (i=0; i<text_length; i++)
-    {
+    for (i=0; i<text_length; i++) {
         ascii = (int)text[i];
         
         BlitIMG(

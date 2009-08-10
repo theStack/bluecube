@@ -59,20 +59,16 @@ int x,y;         /* Current explosion coordinates */
 //=======================================================================*/
 void Mainloop()
 {
-    while (!bDone) /* Mainloop */
-    {
-        switch (gamestate)
-        {
+    while (!bDone) { /* Mainloop */
+        switch (gamestate) {
         case STATE_MENU:
             MainMenu_Loop();
             SDL_Delay(TimeLeft());
             break;
 
         case STATE_PLAY:
-            while (SDL_PollEvent(&event))
-            {
-                switch (event.type)
-                {
+            while (SDL_PollEvent(&event)) {
+                switch (event.type) {
                 case SDL_QUIT: bDone = 1; break;
                 case SDL_KEYDOWN:
                     /* Escape can be pressed everytime to get back to the menu */
@@ -80,8 +76,7 @@ void Mainloop()
                         gamestate = STATE_MENU;
 
                     if (!bPause && !bGameOver) /* Is the game active? */
-                    switch (event.key.keysym.sym)
-                    {
+                    switch (event.key.keysym.sym) {
                     case SDLK_SPACE:
                         MoveCluster(1); /* "drop" cluster...      */
                         NewCluster();   /* ... and create new one */
@@ -189,13 +184,10 @@ void NewGame()
 //=======================================================================*/
 static void Game_Loop()
 {
-    if (!bPause)
-    {
-        if (!bGameOver)
-        {
+    if (!bPause) {
+        if (!bGameOver) {
             cluster.dropCount--;  /* Decrease time until the next fall */
-            if (cluster.dropCount == 0)
-            {
+            if (cluster.dropCount == 0) {
                 if (MoveCluster(0)) /* If cluster "collides"... */
                     NewCluster();   /* then create a new one ;) */
             }
@@ -210,14 +202,12 @@ static void Game_Loop()
                 ((level == 6) && (lines >= 140)) ||
                 ((level == 7) && (lines >= 160)) ||
                 ((level == 8) && (lines >= 180)) ||
-                ((level == 9) && (lines >= 200)))
-            {
+                ((level == 9) && (lines >= 200))) {
                 level++;
                 PutSound(&sndNextlevel);
             }
         }
-        else
-        {
+        else {
             GameOverAnimation();
         }
 
@@ -247,8 +237,7 @@ static void DrawScene()
     if (bCrazy)
         WriteText(font, 250, 30+(boxdraw.box_x), "Cr4zY m0d3!"); /* woo hoo! */
 
-    if (!bGameOver)
-    {
+    if (!bGameOver) {
         /* Draw border of the box */
         PutRect(boxdraw.box_x-5, boxdraw.box_y-5,
                 boxdraw.box_width + 2*5, boxdraw.box_height + 2*5, 150,150,150);
@@ -274,8 +263,7 @@ static void DrawScene()
 
     if (bPause)
         WriteText(font, 265, 20, "- PAUSE -");
-    if (bGameOver && !bExplode)
-    {
+    if (bGameOver && !bExplode) {
         WriteTextCenter(font, 120, "GAME OVER");
         sprintf(chScore, "Your Score: %d", score); 
         WriteTextCenter(font, 250, chScore);
@@ -305,15 +293,12 @@ static void GameOverAnimation()
     static int counter = 1; /* Sound counter */
 
     if (bExplode) {
-        while (!IsBrickSet(x,y)) /* Search for the next brick */
-        {
+        while (!IsBrickSet(x,y)) { /* Search for the next brick */
             x++;
-            if (x == BOX_BRICKS_X)
-            {
+            if (x == BOX_BRICKS_X) {
                 x = 0;
                 y++;
-                if (y == BOX_BRICKS_Y) /* End reached? */
-                {
+                if (y == BOX_BRICKS_Y) { /* End reached? */ 
                     bExplode = 0;
                     return;
                 }

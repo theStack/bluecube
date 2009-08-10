@@ -36,8 +36,7 @@ void InitSDLex()
     if (bSoundActivated)
         init_flags |= SDL_INIT_AUDIO;
 
-    if (SDL_Init(init_flags) < 0)
-    {
+    if (SDL_Init(init_flags) < 0) {
         fprintf(stderr, "Couldn't init SDL -> %s\n", SDL_GetError());
         exit(1);
     }
@@ -48,8 +47,7 @@ void InitSDLex()
     /* Set video mode */
     screen = SDL_SetVideoMode(SCREEN_X, SCREEN_Y, SCREEN_BPP, 
         SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
-    if (screen == NULL)
-    {
+    if (screen == NULL) {
         fprintf(stderr, "Couldn't set video mode -> %s\n", SDL_GetError());
         exit(1);
     }

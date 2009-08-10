@@ -133,10 +133,8 @@ void ShowCredits()
 
     int now = SDL_GetTicks();
     
-    while (running)
-    {
-        if ((SDL_GetTicks() - now) >= times[current])
-        {
+    while (running) {
+        if ((SDL_GetTicks() - now) >= times[current]) {
             /*explosion_created = 0;*/
             j = 0;
             current++;
@@ -151,15 +149,11 @@ void ShowCredits()
 
         keystate = SDL_GetKeyState(NULL);
         if (keystate[SDLK_ESCAPE])
-        {
             running = 0;
-        }
 
         MoveStars();
 
-        
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0,0,0));
-
         
         /*
             if (!explosion_created) {
@@ -176,8 +170,6 @@ void ShowCredits()
         for (i=0; i<6; i++)
             WriteTextCenter(font, 120 + i*40, scroller[current][i]);
 
-        
-        
         SDL_Flip(screen);
         SDL_Delay(TimeLeft());
     }

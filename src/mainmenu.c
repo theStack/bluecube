@@ -45,16 +45,13 @@ void MainMenu_Loop()
     const char *descriptions[3] = {
         "Let the fun begin!", "Credits and other stuff...", "Please don't leave me alone!" };
 
-    while (SDL_PollEvent(&event))
-    {
-        switch (event.type)
-        {
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
         case SDL_QUIT:
             bDone = 1;
             break;
         case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
+            switch (event.key.keysym.sym) {
             case SDLK_UP:
                 iAuswahl--;      
                 if (iAuswahl < 1)
@@ -67,8 +64,7 @@ void MainMenu_Loop()
                 break;
             case SDLK_RETURN:
             case SDLK_SPACE:
-                switch (iAuswahl)
-                {
+                switch (iAuswahl) {
                 case 1:
                     NewGame();
                     break;
@@ -89,14 +85,12 @@ void MainMenu_Loop()
     }
 
     /* Move activated text */
-    if (bMoveDirection)
-    {
+    if (bMoveDirection) {
         MoveValue+=2;
         if (MoveValue == 6)
             bMoveDirection = 0;
     }
-    else
-    {
+    else {
         MoveValue-=2;
         if (MoveValue == -6)
             bMoveDirection = 1;

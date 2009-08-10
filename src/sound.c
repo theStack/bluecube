@@ -50,8 +50,7 @@ void InitSound()
     wanted.callback = AudioCallback;
     wanted.userdata = NULL;
 
-    if (SDL_OpenAudio(&wanted, NULL) < 0)
-    {
+    if (SDL_OpenAudio(&wanted, NULL) < 0) {
         fprintf(stderr, "Couldn't open audio -> %s\n", SDL_GetError());
         exit(1);
     }
@@ -65,8 +64,7 @@ void LoadSound(char *soundfile, pSound sound)
 {
     SDL_AudioSpec wav_spec;
 
-    if (!SDL_LoadWAV(soundfile, &wav_spec, &sound->samples, &sound->length))
-    {
+    if (!SDL_LoadWAV(soundfile, &wav_spec, &sound->samples, &sound->length)) {
         fprintf(stderr, 
             "Couldn't load wav file [%s] -> %s\n", soundfile, SDL_GetError());
         exit(1);
@@ -124,10 +122,8 @@ static void AudioCallback(void *user_data, Uint8 *audio, int length)
     memset(audio, 0, length);   
         
     /* Mix all sounds in the array together! */
-    for (i=0; i<MAX_PLAYING_SOUNDS; i++)
-    {
-        if (sounds[i].active) /* Only if sound is active... */
-        {
+    for (i=0; i<MAX_PLAYING_SOUNDS; i++) {
+        if (sounds[i].active) { /* Only if sound is active... */
             Uint8 *sound_buf;
             Uint32 sound_len;
 

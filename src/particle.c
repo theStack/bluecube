@@ -81,8 +81,7 @@ void DrawParticles()
 {
     int i;
 
-    for (i=0; i<active_particles; i++)
-    {
+    for (i=0; i<active_particles; i++) {
         int x, y;
 
         x = (int)particles[i].x;
@@ -137,8 +136,7 @@ void CreateParticleExplosion(int x, int y, int r, int g, int b,
     int i;
     Particle particle; /* New particle */
 
-    for (i=0; i<density; i++)
-    {
+    for (i=0; i<density; i++) {
         particle.x = x;
         particle.y = y;
         particle.dy = ((rand()%10)+1)/10.0;
@@ -182,8 +180,7 @@ void InitStars()
 {
     int i;
 
-    for (i=0; i<MAX_STARS; i++)
-    {
+    for (i=0; i<MAX_STARS; i++) {
         stars[i].pX = (float)(rand() % SCREEN_X);
         stars[i].pY = rand() % SCREEN_Y;
         stars[i].vX = (float)(((rand()%100)/10)+1);
@@ -199,14 +196,12 @@ void MoveStars()
 {
     int i;
 
-    for (i=0; i<MAX_STARS; i++)
-    {
+    for (i=0; i<MAX_STARS; i++) {
         stars[i].pX += stars[i].vX;
         if (stars[i].pX >= SCREEN_X)
             stars[i].pX -= (float)SCREEN_X;
         
-        if (gamestate == STATE_CREDITS)
-        {
+        if (gamestate == STATE_CREDITS) {
             stars[i].pY -= stars[i].vX;
             if (stars[i].pY < 0)
                 stars[i].pY += SCREEN_Y;

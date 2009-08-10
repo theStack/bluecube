@@ -63,10 +63,8 @@ void DrawBox()
     int x, y;
 
     for (y=0; y<BOX_BRICKS_Y; y++)
-        for (x=0; x<BOX_BRICKS_X; x++)
-        {
-            if (box[x][y].style)
-            {
+        for (x=0; x<BOX_BRICKS_X; x++) {
+            if (box[x][y].style) {
                 PutRect(
                     boxdraw.box_x + x*(boxdraw.brick_width + boxdraw.box_l), 
                     boxdraw.box_y + y*(boxdraw.brick_height+ boxdraw.box_l),
@@ -148,8 +146,7 @@ void DrawCluster()
     int x, y;
 
     for (y=0; y<CLUSTER_Y; y++)
-        for (x=0; x<CLUSTER_X; x++)
-        {
+        for (x=0; x<CLUSTER_X; x++) {
             if (cluster.data[x][y])
                 PutRect(
                     boxdraw.box_x + (cluster.x+x)*(boxdraw.brick_width+boxdraw.box_l), 
@@ -191,9 +188,7 @@ void PutCluster(int x, int y)
 
     for (cY=0; cY<CLUSTER_Y; cY++)
         for (cX=0; cX<CLUSTER_X; cX++)
-        {
             box[x+cX][y+cY].style |= cluster.data[cX][cY];
-        }
 }
 
 
@@ -206,13 +201,11 @@ int ClusterCollisionTest(int x, int y)
     int X, Y, cX, cY;
 
     for (cY=0; cY<CLUSTER_Y; cY++)
-        for (cX=0; cX<CLUSTER_X; cX++)
-        {
+        for (cX=0; cX<CLUSTER_X; cX++) {
             X = cX+x;
             Y = cY+y;
 
-            if (cluster.data[cX][cY])
-            {
+            if (cluster.data[cX][cY]) {
                 if ((box[X][Y].style) ||
                     ((X < 0) || (X >= BOX_BRICKS_X) ||
                      (Y < 0) || (Y >= BOX_BRICKS_Y)))
@@ -231,12 +224,9 @@ int MoveCluster(int bDown)
 {
     int y;
 
-    if (bDown) /* Should be dropped down? */
-    {
-        for (y=cluster.y; y<BOX_BRICKS_Y; y++)
-        {
-            if (ClusterCollisionTest(cluster.x, y+1)) /* Search for terrain */
-            {
+    if (bDown) { /* Should be dropped down? */
+        for (y=cluster.y; y<BOX_BRICKS_Y; y++) {
+            if (ClusterCollisionTest(cluster.x, y+1)) { /* Search for terrain */
                 PutCluster(cluster.x, y);
                 if (!CheckFullLine())
                     score += 200;
@@ -246,8 +236,7 @@ int MoveCluster(int bDown)
         return 0;
     } /* Move down slowly */
     else {
-        if (ClusterCollisionTest(cluster.x, cluster.y+1))
-        {
+        if (ClusterCollisionTest(cluster.x, cluster.y+1)) {
             PutCluster(cluster.x, cluster.y);
             if (!CheckFullLine())
                 score += 100;
@@ -332,29 +321,23 @@ int CheckFullLine()
     int x, y, newX, newY;
 
     for (y=BOX_BRICKS_Y-1; y>0; y--) /* Create particles and play sound... */
-        if (FullLine(y))
-        {
+        if (FullLine(y)) {
             for (x=0; x<BOX_BRICKS_X; x++)
                 BrickExplosion(x, y, 1, 15);
             PutSound(&sndLine);
         }
 
     for (y=BOX_BRICKS_Y-1; y>0; y--)
-        while (FullLine(y)) /* Remove lines */
-        {
+        while (FullLine(y)) { /* Remove lines */
             for (newY=y; newY>0; newY--)
                 for (newX=0; newX<BOX_BRICKS_X; newX++)
-                {
                     box[newX][newY].style = box[newX][newY-1].style;
-                }
             counter++;
         }
 
-    if (counter) /* Were some lines killed? */
-    {
+    if (counter) { /* Were some lines killed? */
         lines += counter; /* Increase lines counter */
-        switch (counter)  /* Increase score */
-        {
+        switch (counter) { /* Increase score */
         case 1: score += 1000;  break;
         case 2: score += 2500;  break;
         case 3: score += 5000;  break;
@@ -419,8 +402,7 @@ void BoxDrawMove()
 
     frameTimer++;
     
-    if (frameTimer == 1)
-    {
+    if (frameTimer == 1) {
         /*
         if (bGrow)
         {
@@ -440,15 +422,13 @@ void BoxDrawMove()
         }
         */
 
-        if (bSpace)
-        {
+        if (bSpace) {
             boxdraw.box_l++;
             BoxDrawUpdate();
             if (boxdraw.box_l >= 7)
                 bSpace = 0;
         }
-        else
-        {
+        else {
             boxdraw.box_l--;
             BoxDrawUpdate();
             if (boxdraw.box_l <= 2)
